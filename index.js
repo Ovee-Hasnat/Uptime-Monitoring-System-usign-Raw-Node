@@ -1,27 +1,24 @@
 //dependncies
-const http = require("http");
-const { handleReqRes } = require("./helpers/handleReqRes");
-const environment = require("./helpers/environments");
-const data = require("./lib/data");
+const server = require("./lib/server");
+const worker = require("./lib/worker");
 
 //app object - module scaffolding
 const app = {};
 
-//testing fs
-// data.delete("test", "newFile", (err) => {
-//   console.log(`error was`, err);
+//testing twilio
+// sendTwilioSms("01521436302", "Hello Ovee", (err) => {
+//   console.log(`This is the error: `, err);
 // });
 
-//create server
-app.createServer = () => {
-  const server = http.createServer(app.handleReqRes);
-  server.listen(environment.port, () => {
-    console.log(`Listening to port ${environment.port}`);
-  });
+app.init = () => {
+  //start the server
+  server.init();
+
+  //start the worker
+  worker.init();
 };
 
-//handle request response
-app.handleReqRes = handleReqRes;
+app.init();
 
-//start the server
-app.createServer();
+//export
+module.exports = app;
